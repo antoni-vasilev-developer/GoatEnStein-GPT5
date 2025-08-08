@@ -1,0 +1,9 @@
+{
+  "name": "goatenstein",
+  "version": "1.0.0",
+  "description": "Shoot goats in a simple three.js FPS",
+  "scripts": {
+    "start": "npx http-server .",
+    "test": "echo \"No tests specified\""
+  }
+}
