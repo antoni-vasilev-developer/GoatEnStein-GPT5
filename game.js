@@ -35,11 +35,11 @@ function init() {
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 
-  renderer = new THREE.WebGLRenderer();
+  const canvas = document.getElementById('gameCanvas');
+  renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
 
-  controls = new PointerLockControls(camera, document.body);
+  controls = new PointerLockControls(camera, canvas);
 
   const blocker = document.getElementById('message');
   blocker.style.display = 'block';
@@ -72,6 +72,7 @@ function init() {
   document.addEventListener('keydown', onKeyDown);
   document.addEventListener('keyup', onKeyUp);
   document.addEventListener('mousedown', () => shoot());
+  window.addEventListener('resize', onWindowResize);
 
   document.getElementById('pistolBtn').addEventListener('click', () => { weapon='pistol'; updateUI(); });
   document.getElementById('rifleBtn').addEventListener('click', () => { weapon='rifle'; updateUI(); });
@@ -217,6 +218,12 @@ function nextLevel() {
     initLevel(levels[levelIndex]);
     showMessage(`Level ${levelIndex+1}`);
   }
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {
